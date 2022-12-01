@@ -1,0 +1,12 @@
+package com.test.fi;
+
+public interface MyInterface {
+	public int sum(int a, int b);
+
+	class Test {
+		public static void main(String[] args) {
+			MyInterface myInterface = (a, b) -> a + b;
+			System.out.println(myInterface.sum(10, 15););
+		}
+	}
+}

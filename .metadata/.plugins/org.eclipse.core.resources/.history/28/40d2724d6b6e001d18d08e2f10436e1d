@@ -1,0 +1,11 @@
+package com.test.pojo;
+
+import java.util.ArrayList;
+import java.util.List;
+
+public class TestClient {
+	public static void main(String[] args) {
+     List<Student> students=new ArrayList<Student>();
+     students.add(new Student())
+	}
+}

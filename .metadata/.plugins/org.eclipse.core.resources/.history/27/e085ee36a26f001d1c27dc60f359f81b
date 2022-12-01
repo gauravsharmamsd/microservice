@@ -1,0 +1,16 @@
+package com.list.test;
+
+import java.util.function.Predicate;
+
+public class Test2Ifelse {
+public static void main(String[] args) {
+	Predicate< Integer> p1=i->i%2==0;
+	System.out.println(p1.test(15));
+	System.out.println(p1.test(10));
+	
+	Predicate<Employee> p11=e->e.getSalary()>1000 && e.isHaveGF()==true;
+	Employee employee=new Employee(1000,true);
+	System.out.println(p11.test(employee));
+	
+}
+}

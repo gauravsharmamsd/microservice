@@ -1,0 +1,108 @@
+package com.lambda.ThreadTest;
+
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+
+public class ProducerConsumer {
+	public static void main(String[] args) throws IOException {
+		Product product = new Product();
+		// File file = createFile();
+		FileWriter output = new FileWriter("test.text");
+		Runnable runnable1 = () -> {
+			int i=0;
+			while (i<5) {
+				i++;
+				synchronized (product) {
+					if (!product.isAvailable()) {
+						product.setProduct("product");
+
+						try {
+							
+							System.out.println(Thread.currentThread().getName() + "product produce");
+							// output.write("produce");
+							Thread.currentThread().sleep(2000);
+							output.write(Thread.currentThread().getName() + "product produce");
+							
+							System.out.println("Data is written to the file.");
+
+						} catch (IOException | InterruptedException e1) {
+							// TODO Auto-generated catch block
+							e1.printStackTrace();
+						}
+
+						try {
+							Thread.sleep(1000);
+						} catch (InterruptedException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+						product.notify();
+					} else {
+						try {
+							product.wait();
+						} catch (InterruptedException e) {
+							e.printStackTrace();
+						}
+					}
+				}
+			}
+		};
+		Thread producer = new Thread(runnable1);
+		producer.setName("producer");
+
+		Runnable runnable2 = () -> {
+			int i=0;
+			while (i<5) {
+				i++;
+				synchronized (product) {
+					if (product.isAvailable()) {
+						product.getProduct();
+
+						try {
+							
+							System.out.println(Thread.currentThread().getName() + "consumer consume");
+							// output.write("consume");
+							Thread.currentThread().sleep(2000);
+							output.write(Thread.currentThread().getName() + "consumer consume");
+						
+							System.out.println("Data is written to the file.");
+
+						} catch (IOException e1) {
+							// TODO Auto-generated catch block
+							e1.printStackTrace();
+						} catch (InterruptedException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+
+						product.notify();
+					} else {
+						try {
+							product.wait();
+						} catch (InterruptedException e) {
+							e.printStackTrace();
+						}
+					}
+				}
+			}
+		};
+		Thread consumer = new Thread(runnable2);
+		consumer.setName("consumer");
+
+		producer.start();
+		consumer.start();
+
+	}
+
+	private static File createFile() throws IOException {
+		File file = new File("test.text");
+		boolean value = file.createNewFile();
+		if (value) {
+			System.out.println("New text File is created.");
+		} else {
+			System.out.println("The file already exists.");
+		}
+		return file;
+	}
+}

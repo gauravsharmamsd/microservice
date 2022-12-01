@@ -1,0 +1,24 @@
+package com.test.pojo;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
+
+public class TestClient {
+	public static void main(String[] args) {
+		Comparator<Student> mycomparator = (a, b) -> {
+			return (a.getSid() > b.getSid()) ? -1 : (a.getSid() < b.getSid()) ? 1 : 0;
+		};
+		List<Student> students = new ArrayList<Student>();
+		students.add(new Student(2, "gaurav", "nandpur"));
+		students.add(new Student(5, "kapil", "jaipur"));
+		students.add(new Student(3, "atin", "gzb"));
+		students.add(new Student(10, "dinesh", "ilna"));
+		students.stream().forEach(System.out::println);
+		Collections.sort(students, mycomparator);
+		System.out.println("************************");
+		students.stream().forEach(System.out::println);
+
+	}
+}

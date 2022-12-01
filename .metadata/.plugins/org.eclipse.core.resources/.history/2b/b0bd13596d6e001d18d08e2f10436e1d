@@ -1,0 +1,20 @@
+package com.test.pojo;
+
+import java.util.ArrayList;
+import java.util.List;
+
+public class TestClient {
+	public static void main(String[] args) {
+		Comparable<Student> comparable=(Student s1,Student s2)->{
+		return	s1.getSid();
+		}
+			
+		
+		List<Student> students = new ArrayList<Student>();
+		students.add(new Student(2, "gaurav", "nandpur"));
+		students.add(new Student(5, "kapil", "jaipur"));
+		students.add(new Student(3, "jatin", "gzb"));
+		students.add(new Student(1, "dinesh", "ilna"));
+		students.stream().forEach(System.out::println);
+	}
+}

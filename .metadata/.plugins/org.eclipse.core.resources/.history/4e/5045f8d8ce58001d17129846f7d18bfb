@@ -1,0 +1,79 @@
+package com.hibernate;
+
+import java.io.IOException;
+import java.net.URISyntaxException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+
+import org.hibernate.Hibernate;
+import org.hibernate.HibernateException;
+import org.hibernate.Query;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.hibernate.cfg.Configuration;
+
+import com.hibernate.pojo.Song;
+import com.hibernate.pojo.Video;
+import com.hibernate.utils.HibernateUtils;
+
+public class App {
+	public static void main(String[] args) throws HibernateException, ClassNotFoundException, IOException, URISyntaxException {
+
+		/*
+		 * Session session = HibernateUtils.getSessionFactory().openSession(); Video
+		 * video = new Video(); video.setId(2); video.setVersion("mp4");
+		 * session.beginTransaction(); session.save(video);
+		 * session.getTransaction().commit(); session.close();
+		 */
+
+		Session session = HibernateUtils.getSessionFactory().openSession();
+		session.beginTransaction();
+		Query query = session.createQuery(
+				"select v.id,v.version, s.id,s.songName,s.artist from com.hibernate.pojo.Song s  left join Video v on v.id=s.id ");
+		List<Object[]> data = query.list();
+		List<Song> songList = new ArrayList<Song>();
+		List<Video> videoList = new ArrayList<Video>();
+		for (Object[] row : data) {
+			Video video = new Video();
+			if (row[0] != null && row[1] != null) {
+				video.setId(Integer.parseInt(row[0].toString()));
+				video.setVersion((row[1].toString()));
+				videoList.add(video);
+			}
+			
+			
+
+			Song song = new Song();
+			song.setId(Integer.parseInt(row[2].toString()));
+			song.setSongName(row[3].toString());
+			song.setArtist((row[4].toString()));
+
+			songList.add(song);
+		}
+		for (Song st : songList) {
+			System.out.println(st);
+		}
+		for (Video st : videoList) {
+			System.out.println(st);
+		}
+
+		// Song song = session.get(Song.class, 4); //
+		/*
+		 * session.getTransaction().commit(); session.close(); System.out.println(song);
+		 * 
+		 * 
+		 * update Session session = sessionFactory.openSession();
+		 * session.beginTransaction(); Song song = session.get(Song.class, 3);
+		 * song.setArtist("mohd rafi"); session.update(song);
+		 * session.getTransaction().commit(); session.close();
+		 */
+
+		/*
+		 * delete Session session=sessionFactory.openSession();
+		 * session.beginTransaction(); Song song=session.get(Song.class, 3);
+		 * session.delete(song); session.getTransaction().commit(); session.close();
+		 */
+	}
+
+}

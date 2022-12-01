@@ -1,0 +1,17 @@
+package com.test;
+
+/*
+* Program Demonstrate how to apply getParameterTypes() method
+* of Method Class.
+*/
+import java.lang.reflect.Method;
+
+public class GFG {
+
+	// Main method
+	public static void main(String[] args) {
+	String	pathName = "BG_REP_FILE_PATH".replace("{1}", "2120").replace("/", "/");
+	System.out.println(pathName);
+	}
+
+}
